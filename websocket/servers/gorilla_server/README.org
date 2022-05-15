@@ -1,0 +1,9 @@
+#+TITLE: Gorilla Websocket Server
+
+A websocket server built using Golang's [[https://github.com/gorilla/websocket][Gorilla Websocket]].
+
+** Getting Started
+- Install Golang using [[https://asdf-vm.com/][asdf]] or by following the official [[https://go.dev/doc/install][installation instructions]].
+- Install Protoc plugin Golang by following the official [[https://developers.google.com/protocol-buffers/docs/gotutorial][instructions]].
+- Compile proto definitions: ~protoc -I=`pwd` --go_out=`pwd` `pwd`/proto/command.proto~
+- Start the server: ~go run main.go~

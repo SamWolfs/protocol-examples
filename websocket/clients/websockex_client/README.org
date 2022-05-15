@@ -1,0 +1,14 @@
+#+TITLE: Websockex Client
+
+A websocket client using Elixir's [[https://github.com/Azolo/websockex][Websockex]].
+
+** Getting Started
+- Get dependencies: ~mix deps.get~
+- Compile protos: ~protoc -I `pwd` --elixir_out=`pwd`/lib `pwd/proto/command.proto`~
+- Run using: ~iex -S mix~
+
+#+begin_src elixir
+{:ok, pid} = WebsockexClient.start_link()
+WebsockexClient.echo(pid, "Hello World!")
+WebsockexClient.increment(pid, 1)
+#+end_src

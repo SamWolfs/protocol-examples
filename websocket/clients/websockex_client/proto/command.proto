@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package example;
+
+message Command {
+    oneof payload {
+        Echo echo = 101;
+        Increment increment = 102;
+    }
+}
+
+message Echo {
+    string msg = 1;
+}
+
+message Increment {
+    int32 value = 1;
+}
