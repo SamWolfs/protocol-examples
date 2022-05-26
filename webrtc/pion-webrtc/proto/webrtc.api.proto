@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package webrtc;
+
+option go_package = "/proto";
+
+message Envelope {
+    oneof payload {
+        SdpOffer sdp_offer = 101;
+        SdpAnswer sdp_answer = 102;
+    }
+}
+
+message SdpOffer {
+    string sdp = 1;
+}
+
+message SdpAnswer {
+    string sdp = 1;
+}

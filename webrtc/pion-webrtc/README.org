@@ -1,0 +1,22 @@
+#+TITLE: Pion WebRTC
+
+** Testing
+*** Receive Audio
+#+begin_src shell
+gst-launch-1.0 rtpsession name=rtpsession rtp-profile=avpf \
+     udpsrc port=4000 caps="application/x-rtp,media=(string)audio,clock-rate=(int)48000,encoding-name=(string)OPUS,payload=(int)96" ! \
+         rtpsession.recv_rtp_sink \
+     rtpsession.recv_rtp_src ! \
+         rtprtxreceive payload-type-map="application/x-rtp-pt-map,96=(uint)97" ! \
+         rtpssrcdemux ! rtpjitterbuffer do-retransmission=true ! \
+         rtpopusdepay ! opusdec ! audioconvert ! audioresample ! autoaudiosink \
+     rtpsession.send_rtcp_src ! \
+         udpsink host="127.0.0.1" port=5001 sync=false async=false \
+     udpsrc port=5002 ! rtpsession.recv_rtcp_sink
+#+end_src
+
+*** Send Audio
+#+begin_src shell
+gst-launch-1.0 audiotestsrc ! audioconvert ! opusenc ! rtpopuspay ! \
+udpsink host="127.0.0.1" port=5000
+#+end_src

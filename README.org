@@ -1,1 +1,3 @@
 #+TITLE: Protocol Examples
+
+This repository contains examples of protocols in different languages/frameworks using different libraries. There'll also be some protocol encompassing APIs. (Looking at you WebRTC)
