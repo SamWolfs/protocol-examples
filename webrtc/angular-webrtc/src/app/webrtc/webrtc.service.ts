@@ -20,7 +20,7 @@ export class WebRTCService {
         this.initUserMedia();
         this.initHandlers();
         this.signal.sdp$.subscribe(sdp => {
-            this.peerConnection.setRemoteDescription({sdp, type: 'answer'});
+            this.peerConnection.setRemoteDescription({ sdp, type: 'answer' });
         });
     }
 
@@ -50,10 +50,10 @@ export class WebRTCService {
                 }
             }
         }
-        this.peerConnection.ontrack = function(event) {
-            console.log('Track Added', event);
-            const el = document.createElement(event.track.kind) as HTMLAudioElement;
-            el.srcObject = event.streams[0];
+        this.peerConnection.ontrack = e => {
+            console.log('Track Added', e);
+            const el = document.createElement(e.track.kind) as HTMLAudioElement;
+            el.srcObject = e.streams[0];
             el.autoplay = true;
 
             document.getElementById('audio')?.appendChild(el);

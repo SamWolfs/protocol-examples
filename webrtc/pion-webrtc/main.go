@@ -77,12 +77,12 @@ func startWebRTC(w http.ResponseWriter, r *http.Request) {
 
 	initPeerConnection(webRTC)
 
-	go startSender(webRTC)
+	go startRTPToWebRTC(webRTC)
 
 	select {}
 }
 
-func startSender(webRTC *state) {
+func startRTPToWebRTC(webRTC *state) {
 	var err error
 
 	go func() {
@@ -128,7 +128,7 @@ func startSender(webRTC *state) {
 	}
 }
 
-func startReceiver(webRTC *state, track *webrtc.TrackRemote, receiver *webrtc.RTPReceiver) {
+func startWebRTCToRTP(webRTC *state, track *webrtc.TrackRemote, receiver *webrtc.RTPReceiver) {
 	var laddr *net.UDPAddr
 	var err error
 	if laddr, err = net.ResolveUDPAddr("udp", "127.0.0.1:"); err != nil {
@@ -230,7 +230,7 @@ func initPeerConnection(webRTC *state) {
 	webRTC.pc.OnTrack(func(track *webrtc.TrackRemote, receiver *webrtc.RTPReceiver) {
 		codec := track.Codec()
 		if strings.EqualFold(codec.MimeType, webrtc.MimeTypeOpus) {
-			go startReceiver(webRTC, track, receiver)
+			go startWebRTCToRTP(webRTC, track, receiver)
 		} else {
 			log.Println("Received unexpected track", codec)
 		}
